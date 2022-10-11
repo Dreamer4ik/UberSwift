@@ -9,21 +9,21 @@
 /* Begin PBXBuildFile section */
 		DF4439CF28F5D99D000066E1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4439CE28F5D99D000066E1 /* AppDelegate.swift */; };
 		DF4439D128F5D99D000066E1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4439D028F5D99D000066E1 /* SceneDelegate.swift */; };
-		DF4439D328F5D99D000066E1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4439D228F5D99D000066E1 /* ViewController.swift */; };
-		DF4439D628F5D99D000066E1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DF4439D428F5D99D000066E1 /* Main.storyboard */; };
 		DF4439D828F5D99E000066E1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DF4439D728F5D99E000066E1 /* Assets.xcassets */; };
 		DF4439DB28F5D99E000066E1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DF4439D928F5D99E000066E1 /* LaunchScreen.storyboard */; };
+		DF4439E928F5D9EF000066E1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4439E828F5D9EF000066E1 /* LoginViewController.swift */; };
+		DF4439EB28F5DBB6000066E1 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4439EA28F5DBB6000066E1 /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		DF4439CB28F5D99D000066E1 /* UberSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UberSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF4439CE28F5D99D000066E1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DF4439D028F5D99D000066E1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		DF4439D228F5D99D000066E1 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		DF4439D528F5D99D000066E1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		DF4439D728F5D99E000066E1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DF4439DA28F5D99E000066E1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DF4439DC28F5D99E000066E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DF4439E828F5D9EF000066E1 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		DF4439EA28F5DBB6000066E1 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,15 +56,63 @@
 		DF4439CD28F5D99D000066E1 /* UberSwift */ = {
 			isa = PBXGroup;
 			children = (
+				DF4439E628F5D9C0000066E1 /* Model */,
+				DF4439E528F5D9BC000066E1 /* View */,
+				DF4439E428F5D9B7000066E1 /* Controller */,
+				DF4439E328F5D9B2000066E1 /* Service */,
+				DF4439E228F5D9A7000066E1 /* Utils */,
 				DF4439CE28F5D99D000066E1 /* AppDelegate.swift */,
 				DF4439D028F5D99D000066E1 /* SceneDelegate.swift */,
-				DF4439D228F5D99D000066E1 /* ViewController.swift */,
-				DF4439D428F5D99D000066E1 /* Main.storyboard */,
 				DF4439D728F5D99E000066E1 /* Assets.xcassets */,
 				DF4439D928F5D99E000066E1 /* LaunchScreen.storyboard */,
 				DF4439DC28F5D99E000066E1 /* Info.plist */,
 			);
 			path = UberSwift;
+			sourceTree = "<group>";
+		};
+		DF4439E228F5D9A7000066E1 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				DF4439EA28F5DBB6000066E1 /* Extensions.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		DF4439E328F5D9B2000066E1 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		DF4439E428F5D9B7000066E1 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				DF4439E728F5D9E2000066E1 /* Auth */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		DF4439E528F5D9BC000066E1 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		DF4439E628F5D9C0000066E1 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		DF4439E728F5D9E2000066E1 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				DF4439E828F5D9EF000066E1 /* LoginViewController.swift */,
+			);
+			path = Auth;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -127,7 +175,6 @@
 			files = (
 				DF4439DB28F5D99E000066E1 /* LaunchScreen.storyboard in Resources */,
 				DF4439D828F5D99E000066E1 /* Assets.xcassets in Resources */,
-				DF4439D628F5D99D000066E1 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,23 +185,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DF4439D328F5D99D000066E1 /* ViewController.swift in Sources */,
+				DF4439E928F5D9EF000066E1 /* LoginViewController.swift in Sources */,
 				DF4439CF28F5D99D000066E1 /* AppDelegate.swift in Sources */,
 				DF4439D128F5D99D000066E1 /* SceneDelegate.swift in Sources */,
+				DF4439EB28F5DBB6000066E1 /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		DF4439D428F5D99D000066E1 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				DF4439D528F5D99D000066E1 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		DF4439D928F5D99E000066E1 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -292,7 +332,7 @@
 				INFOPLIST_FILE = UberSwift/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -320,7 +360,7 @@
 				INFOPLIST_FILE = UberSwift/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
