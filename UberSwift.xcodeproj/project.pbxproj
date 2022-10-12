@@ -13,6 +13,10 @@
 		DF4439DB28F5D99E000066E1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DF4439D928F5D99E000066E1 /* LaunchScreen.storyboard */; };
 		DF4439E928F5D9EF000066E1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4439E828F5D9EF000066E1 /* LoginViewController.swift */; };
 		DF4439EB28F5DBB6000066E1 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4439EA28F5DBB6000066E1 /* Extensions.swift */; };
+		DF74202028F727E700830057 /* AuthField.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF74201F28F727E700830057 /* AuthField.swift */; };
+		DF74202228F7318800830057 /* AuthButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF74202128F7318800830057 /* AuthButton.swift */; };
+		DF74202528F7367300830057 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF74202428F7367300830057 /* AuthViewModel.swift */; };
+		DFA5B2E228F6CE8D0024C92E /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFA5B2E128F6CE8D0024C92E /* RegisterViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +28,10 @@
 		DF4439DC28F5D99E000066E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DF4439E828F5D9EF000066E1 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		DF4439EA28F5DBB6000066E1 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		DF74201F28F727E700830057 /* AuthField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthField.swift; sourceTree = "<group>"; };
+		DF74202128F7318800830057 /* AuthButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthButton.swift; sourceTree = "<group>"; };
+		DF74202428F7367300830057 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
+		DFA5B2E128F6CE8D0024C92E /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +66,7 @@
 			children = (
 				DF4439E628F5D9C0000066E1 /* Model */,
 				DF4439E528F5D9BC000066E1 /* View */,
+				DF74202328F7365500830057 /* ViewModel */,
 				DF4439E428F5D9B7000066E1 /* Controller */,
 				DF4439E328F5D9B2000066E1 /* Service */,
 				DF4439E228F5D9A7000066E1 /* Utils */,
@@ -96,6 +105,7 @@
 		DF4439E528F5D9BC000066E1 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				DF74201E28F727D700830057 /* Auth */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -111,8 +121,26 @@
 			isa = PBXGroup;
 			children = (
 				DF4439E828F5D9EF000066E1 /* LoginViewController.swift */,
+				DFA5B2E128F6CE8D0024C92E /* RegisterViewController.swift */,
 			);
 			path = Auth;
+			sourceTree = "<group>";
+		};
+		DF74201E28F727D700830057 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				DF74201F28F727E700830057 /* AuthField.swift */,
+				DF74202128F7318800830057 /* AuthButton.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		DF74202328F7365500830057 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				DF74202428F7367300830057 /* AuthViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -185,7 +213,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DF74202028F727E700830057 /* AuthField.swift in Sources */,
+				DF74202228F7318800830057 /* AuthButton.swift in Sources */,
 				DF4439E928F5D9EF000066E1 /* LoginViewController.swift in Sources */,
+				DFA5B2E228F6CE8D0024C92E /* RegisterViewController.swift in Sources */,
+				DF74202528F7367300830057 /* AuthViewModel.swift in Sources */,
 				DF4439CF28F5D99D000066E1 /* AppDelegate.swift in Sources */,
 				DF4439D128F5D99D000066E1 /* SceneDelegate.swift in Sources */,
 				DF4439EB28F5DBB6000066E1 /* Extensions.swift in Sources */,
