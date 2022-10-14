@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 
 class LoginViewController: UIViewController {
     
@@ -74,6 +75,7 @@ class LoginViewController: UIViewController {
         view.addGestureRecognizer(tap)
         
         haveNotAccountButton.addTarget(self, action: #selector(didTapHaveNotAccountButton), for: .touchUpInside)
+        loginButton.addTarget(self, action: #selector(didTapLogin), for: .touchUpInside)
     }
     
     private func configureContainerView() {
@@ -120,6 +122,25 @@ class LoginViewController: UIViewController {
     }
     
     // MARK: - Actions
+    
+    @objc private func didTapLogin() {
+        guard let email = emailTextField.text?.lowercased(),
+              let password = passwordTextField.text else {
+            return
+        }
+        
+        Auth.auth().signIn(withEmail: email, password: password) { [weak self] result, error in
+            if let error = error {
+                print("Failed to log user with error \(error.localizedDescription)")
+                return
+            }
+            
+            self?.dismiss(animated: true)
+            print("Successfully logged user...")
+            
+        }
+    }
+    
     @objc private func didTapHaveNotAccountButton() {
         let vc = RegisterViewController()
         navigationController?.pushViewController(vc, animated: true)

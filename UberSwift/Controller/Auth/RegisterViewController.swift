@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 
 class RegisterViewController: UIViewController {
     
@@ -80,6 +81,7 @@ class RegisterViewController: UIViewController {
         view.addGestureRecognizer(tap)
         
         alreadyHaveAccountButton.addTarget(self, action: #selector(didTapAlreadyHaveAccountButton), for: .touchUpInside)
+        signUpButton.addTarget(self, action: #selector(didTapSignUp), for: .touchUpInside)
     }
     
     private func configureContainerView() {
@@ -156,6 +158,39 @@ class RegisterViewController: UIViewController {
     
     @objc private func didTapAlreadyHaveAccountButton() {
         navigationController?.popViewController(animated: true)
+    }
+    
+    @objc private func didTapSignUp() {
+        guard let email = emailTextField.text?.lowercased(),
+              let password = passwordTextField.text,
+              let fullname = fullnameTextField.text else {
+            return
+        }
+        
+        let accountTypeIndex = accountTypeSegmentedControl.selectedSegmentIndex
+        
+        Auth.auth().createUser(withEmail: email, password: password) { result, error in
+            
+            if let error = error {
+                print("Failed to register user with error \(error.localizedDescription)")
+                return
+            }
+            
+            guard let uid = result?.user.uid else {
+                return
+            }
+            
+            let values = [
+                "email": email,
+                "fullname": fullname,
+                "accountType": accountTypeIndex
+            ] as [String: Any]
+            
+            Database.database().reference().child("users").child(uid).updateChildValues(values) { [weak self] error, ref in
+                self?.dismiss(animated: true)
+                print("Successfully registered user and saved data...")
+            }
+        }
     }
     
 }
