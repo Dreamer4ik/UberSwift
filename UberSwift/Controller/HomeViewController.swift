@@ -13,6 +13,9 @@ class HomeViewController: UIViewController {
     // MARK: - Properties
     
     private let mapView = MKMapView()
+    private let locationManager = CLLocationManager()
+    
+    private let inputActivationView = LocationInputActivationView()
     
     override func viewWillAppear(_ animated: Bool) {
         if Auth.auth().currentUser != nil {
@@ -24,6 +27,7 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         checkIfUserIsLoggedIn()
+        enableLocationServices()
 //        signOut()
     }
     
@@ -45,8 +49,27 @@ class HomeViewController: UIViewController {
     // MARK: - Helpers
     
     private func configureUI() {
+        configureMapView()
+        
+        view.addSubview(inputActivationView)
+        inputActivationView.centerX(inView: view)
+        inputActivationView.setDimensions(height: 50, width: view.frame.width - 64)
+        inputActivationView.anchor(top: view.safeAreaLayoutGuide.topAnchor, paddingTop: 32)
+        inputActivationView.alpha = 0
+        inputActivationView.delegate = self
+        
+        let animator = UIViewPropertyAnimator(duration: 2, curve: .easeOut) {
+            self.inputActivationView.alpha = 1
+        }
+        animator.startAnimation()
+    }
+    
+    private func configureMapView() {
         view.addSubview(mapView)
         mapView.frame = view.bounds
+        
+        mapView.showsUserLocation = true
+        mapView.userTrackingMode = .follow
     }
     
     private func presentLoginController() {
@@ -62,4 +85,47 @@ class HomeViewController: UIViewController {
     }
     // MARK: - Actions
     
+}
+// MARK: - Location Services
+extension HomeViewController: CLLocationManagerDelegate {
+    
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        if manager.authorizationStatus == .authorizedWhenInUse {
+            locationManager.requestAlwaysAuthorization()
+        }
+    }
+    
+    private func enableLocationServices() {
+        locationManager.delegate = self
+        let authorizationStatus: CLAuthorizationStatus
+        
+        if #available(iOS 14, *) {
+            authorizationStatus = locationManager.authorizationStatus
+        } else {
+            authorizationStatus = CLLocationManager.authorizationStatus()
+        }
+        
+        switch authorizationStatus {
+        case .notDetermined:
+            print("notDetermined")
+            locationManager.requestWhenInUseAuthorization()
+        case .restricted,.denied:
+            break
+        case .authorizedAlways:
+            print("authorizedAlways")
+            locationManager.startUpdatingLocation()
+            locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        case .authorizedWhenInUse:
+            print("authorizedWhenInUse")
+            locationManager.requestAlwaysAuthorization()
+        @unknown default:
+            preconditionFailure("Error enableLocationServices")
+        }
+    }
+}
+
+extension HomeViewController: LocationInputActivationViewDelegate {
+    func presentLocationInputView() {
+        
+    }
 }

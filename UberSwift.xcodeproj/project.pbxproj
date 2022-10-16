@@ -20,6 +20,7 @@
 		DF8717A528F95EAA00B32493 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF8717A428F95EAA00B32493 /* HomeViewController.swift */; };
 		DFA5B2E228F6CE8D0024C92E /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFA5B2E128F6CE8D0024C92E /* RegisterViewController.swift */; };
 		DFB2082728F826E50029158D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DFB2082628F826E50029158D /* GoogleService-Info.plist */; };
+		DFCA4D2D28FC186900164F72 /* LocationInputActivationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFCA4D2C28FC186900164F72 /* LocationInputActivationView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,7 @@
 		DF8717A428F95EAA00B32493 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		DFA5B2E128F6CE8D0024C92E /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		DFB2082628F826E50029158D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		DFCA4D2C28FC186900164F72 /* LocationInputActivationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInputActivationView.swift; sourceTree = "<group>"; };
 		EB1C033A1E6452039D1CC030 /* Pods_UberSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UberSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -123,6 +125,7 @@
 			isa = PBXGroup;
 			children = (
 				DF74201E28F727D700830057 /* Auth */,
+				DFCA4D2C28FC186900164F72 /* LocationInputActivationView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -296,6 +299,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DFCA4D2D28FC186900164F72 /* LocationInputActivationView.swift in Sources */,
 				DF74202028F727E700830057 /* AuthField.swift in Sources */,
 				DF74202228F7318800830057 /* AuthButton.swift in Sources */,
 				DF4439E928F5D9EF000066E1 /* LoginViewController.swift in Sources */,
