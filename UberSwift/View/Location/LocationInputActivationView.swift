@@ -43,7 +43,7 @@ class LocationInputActivationView: UIView {
         indicatorView.centerY(inView: self, leftAnchor: leftAnchor, paddingLeft: 16)
         indicatorView.setDimensions(height: 6, width: 6)
         addSubview(placeholderLabel)
-        indicatorView.centerY(inView: self, leftAnchor: indicatorView.leftAnchor, paddingLeft: 20)
+        placeholderLabel.centerY(inView: self, leftAnchor: indicatorView.leftAnchor, paddingLeft: 20)
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(showLocationInputView))
         addGestureRecognizer(tap)
@@ -53,7 +53,7 @@ class LocationInputActivationView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Selectors
+    // MARK: - Actions
     @objc private func showLocationInputView() {
         delegate?.presentLocationInputView()
     }
