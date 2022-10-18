@@ -21,6 +21,8 @@
 		DF8B0BC728FDD1D7007FB066 /* LocationTableHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF8B0BC628FDD1D7007FB066 /* LocationTableHeader.swift */; };
 		DFA5B2E228F6CE8D0024C92E /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFA5B2E128F6CE8D0024C92E /* RegisterViewController.swift */; };
 		DFB2082728F826E50029158D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DFB2082628F826E50029158D /* GoogleService-Info.plist */; };
+		DFC2A0FC28FE96120001892A /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC2A0FB28FE96120001892A /* Service.swift */; };
+		DFC2A0FE28FE9F670001892A /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC2A0FD28FE9F670001892A /* User.swift */; };
 		DFCA4D2D28FC186900164F72 /* LocationInputActivationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFCA4D2C28FC186900164F72 /* LocationInputActivationView.swift */; };
 		DFDFE7D028FDB64400E2B700 /* LocationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFDFE7CF28FDB64400E2B700 /* LocationTableViewCell.swift */; };
 		DFE5CD6728FD4A280003357B /* LocationInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFE5CD6628FD4A280003357B /* LocationInputView.swift */; };
@@ -44,6 +46,8 @@
 		DF8B0BC628FDD1D7007FB066 /* LocationTableHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTableHeader.swift; sourceTree = "<group>"; };
 		DFA5B2E128F6CE8D0024C92E /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		DFB2082628F826E50029158D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		DFC2A0FB28FE96120001892A /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
+		DFC2A0FD28FE9F670001892A /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		DFCA4D2C28FC186900164F72 /* LocationInputActivationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInputActivationView.swift; sourceTree = "<group>"; };
 		DFDFE7CF28FDB64400E2B700 /* LocationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTableViewCell.swift; sourceTree = "<group>"; };
 		DFE5CD6628FD4A280003357B /* LocationInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInputView.swift; sourceTree = "<group>"; };
@@ -114,6 +118,7 @@
 		DF4439E328F5D9B2000066E1 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				DFC2A0FB28FE96120001892A /* Service.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -139,6 +144,7 @@
 		DF4439E628F5D9C0000066E1 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				DFC2A0FD28FE9F670001892A /* User.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -317,12 +323,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				DFCA4D2D28FC186900164F72 /* LocationInputActivationView.swift in Sources */,
+				DFC2A0FC28FE96120001892A /* Service.swift in Sources */,
 				DF74202028F727E700830057 /* AuthField.swift in Sources */,
 				DF74202228F7318800830057 /* AuthButton.swift in Sources */,
 				DF4439E928F5D9EF000066E1 /* LoginViewController.swift in Sources */,
 				DF8B0BC728FDD1D7007FB066 /* LocationTableHeader.swift in Sources */,
 				DFA5B2E228F6CE8D0024C92E /* RegisterViewController.swift in Sources */,
 				DF74202528F7367300830057 /* AuthViewModel.swift in Sources */,
+				DFC2A0FE28FE9F670001892A /* User.swift in Sources */,
 				DFDFE7D028FDB64400E2B700 /* LocationTableViewCell.swift in Sources */,
 				DF8717A528F95EAA00B32493 /* HomeViewController.swift in Sources */,
 				DF4439CF28F5D99D000066E1 /* AppDelegate.swift in Sources */,

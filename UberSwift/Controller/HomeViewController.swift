@@ -25,6 +25,8 @@ class HomeViewController: UIViewController {
         return table
     }()
     
+    private var user: User?
+    
     override func viewWillAppear(_ animated: Bool) {
         if Auth.auth().currentUser != nil {
             configureUI()
@@ -37,6 +39,7 @@ class HomeViewController: UIViewController {
         checkIfUserIsLoggedIn()
         enableLocationServices()
         //        signOut()
+        fetchUserData()
     }
     
     override func viewDidLayoutSubviews() {
@@ -50,6 +53,12 @@ class HomeViewController: UIViewController {
     }
     
     // MARK: - API
+    private func fetchUserData() {
+        Service.shared.fetchUserData { user in
+            self.user = user
+        }
+    }
+    
     private func checkIfUserIsLoggedIn() {
         if Auth.auth().currentUser?.uid == nil {
             presentLoginController()
@@ -133,6 +142,10 @@ class HomeViewController: UIViewController {
             animator2.startAnimation()
         }
         animator.startAnimation()
+        guard let user = user else {
+            return
+        }
+        locationInputView.configureTitle(text: user.fullname.localizedCapitalized)
     }
     
     // MARK: - Actions

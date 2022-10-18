@@ -25,7 +25,6 @@ class LocationInputView: UIView {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Ivan Number One"
         label.textColor = .darkGray
         label.font = UIFont.systemFont(ofSize: 16)
         return label
@@ -122,6 +121,11 @@ class LocationInputView: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - Helpers
+    func configureTitle(text: String) {
+        titleLabel.text = text
     }
     
     // MARK: - Actions
