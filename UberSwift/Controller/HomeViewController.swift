@@ -13,7 +13,7 @@ class HomeViewController: UIViewController {
     // MARK: - Properties
     
     private let mapView = MKMapView()
-    private let locationManager = CLLocationManager()
+    private let locationManager = LocationHandler.shared.locationManager
     private let heightLocationInputView: CGFloat = 200
     
     private let inputActivationView = LocationInputActivationView()
@@ -30,6 +30,8 @@ class HomeViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         if Auth.auth().currentUser != nil {
             configureUI()
+            fetchUserData()
+            fetchDrivers()
         }
     }
     
@@ -38,8 +40,7 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         checkIfUserIsLoggedIn()
         enableLocationServices()
-        //        signOut()
-        fetchUserData()
+//        signOut()
     }
     
     override func viewDidLayoutSubviews() {
@@ -54,8 +55,41 @@ class HomeViewController: UIViewController {
     
     // MARK: - API
     private func fetchUserData() {
-        Service.shared.fetchUserData { user in
+        guard let currentUid = Auth.auth().currentUser?.uid else {
+            return
+        }
+        Service.shared.fetchUserData(uid: currentUid) { user in
             self.user = user
+        }
+    }
+    
+    private func fetchDrivers() {
+        guard let location = locationManager?.location else {
+            return
+        }
+        Service.shared.fetchDrivers(location: location) { driver in
+            guard let coordinate = driver.location?.coordinate else {
+                return
+            }
+            let annotation = DriverAnnotation(uid: driver.uid, coordinate: coordinate)
+            
+            var driverIsVisible: Bool {
+                return self.mapView.annotations.contains { annotation in
+                    guard let driverAnnotation = annotation as? DriverAnnotation else {
+                        return false
+                    }
+                    
+                    if driverAnnotation.uid == driver.uid {
+                        driverAnnotation.updateAnnotationPosition(withCoordinate: coordinate)
+                        return true
+                    }
+                    return false
+                }
+            }
+            
+            if !driverIsVisible {
+                self.mapView.addAnnotation(annotation)
+            }
         }
     }
     
@@ -68,6 +102,7 @@ class HomeViewController: UIViewController {
     private func signOut() {
         do {
             try Auth.auth().signOut()
+            presentLoginController()
         }
         catch {
             print("Error signOut")
@@ -99,6 +134,7 @@ class HomeViewController: UIViewController {
         
         mapView.showsUserLocation = true
         mapView.userTrackingMode = .follow
+        mapView.delegate = self
     }
     
     private func configureTable() {
@@ -151,20 +187,28 @@ class HomeViewController: UIViewController {
     // MARK: - Actions
     
 }
-// MARK: - Location Services
-extension HomeViewController: CLLocationManagerDelegate {
-    
-    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        if manager.authorizationStatus == .authorizedWhenInUse {
-            locationManager.requestAlwaysAuthorization()
+
+// MARK: - MKMapViewDelegate
+extension HomeViewController : MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        guard let annotation = annotation as? DriverAnnotation else {
+            return nil
         }
+        let view = MKAnnotationView(annotation: annotation, reuseIdentifier: DriverAnnotation.identifier)
+        let image = UIImage(named: "car_icon")?.resizeWithScaleAspectFitMode(to: 47)
+        view.image = image
+        return view
     }
-    
+}
+// MARK: - Location Services
+extension HomeViewController {
     private func enableLocationServices() {
-        locationManager.delegate = self
         let authorizationStatus: CLAuthorizationStatus
         
         if #available(iOS 14, *) {
+            guard let locationManager = locationManager else {
+                return
+            }
             authorizationStatus = locationManager.authorizationStatus
         } else {
             authorizationStatus = CLLocationManager.authorizationStatus()
@@ -173,16 +217,16 @@ extension HomeViewController: CLLocationManagerDelegate {
         switch authorizationStatus {
         case .notDetermined:
             print("notDetermined")
-            locationManager.requestWhenInUseAuthorization()
+            locationManager?.requestWhenInUseAuthorization()
         case .restricted,.denied:
             break
         case .authorizedAlways:
             print("authorizedAlways")
-            locationManager.startUpdatingLocation()
-            locationManager.desiredAccuracy = kCLLocationAccuracyBest
+            locationManager?.startUpdatingLocation()
+            locationManager?.desiredAccuracy = kCLLocationAccuracyBest
         case .authorizedWhenInUse:
             print("authorizedWhenInUse")
-            locationManager.requestAlwaysAuthorization()
+            locationManager?.requestAlwaysAuthorization()
         @unknown default:
             preconditionFailure("Error enableLocationServices")
         }

@@ -14,6 +14,7 @@
 		DF4439DB28F5D99E000066E1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DF4439D928F5D99E000066E1 /* LaunchScreen.storyboard */; };
 		DF4439E928F5D9EF000066E1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4439E828F5D9EF000066E1 /* LoginViewController.swift */; };
 		DF4439EB28F5DBB6000066E1 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4439EA28F5DBB6000066E1 /* Extensions.swift */; };
+		DF6DC94128FFEF4500A2C073 /* DriverAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF6DC94028FFEF4500A2C073 /* DriverAnnotation.swift */; };
 		DF74202028F727E700830057 /* AuthField.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF74201F28F727E700830057 /* AuthField.swift */; };
 		DF74202228F7318800830057 /* AuthButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF74202128F7318800830057 /* AuthButton.swift */; };
 		DF74202528F7367300830057 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF74202428F7367300830057 /* AuthViewModel.swift */; };
@@ -21,6 +22,7 @@
 		DF8B0BC728FDD1D7007FB066 /* LocationTableHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF8B0BC628FDD1D7007FB066 /* LocationTableHeader.swift */; };
 		DFA5B2E228F6CE8D0024C92E /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFA5B2E128F6CE8D0024C92E /* RegisterViewController.swift */; };
 		DFB2082728F826E50029158D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = DFB2082628F826E50029158D /* GoogleService-Info.plist */; };
+		DFBD663228FF0DA000873D88 /* LocationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFBD663128FF0DA000873D88 /* LocationHandler.swift */; };
 		DFC2A0FC28FE96120001892A /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC2A0FB28FE96120001892A /* Service.swift */; };
 		DFC2A0FE28FE9F670001892A /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC2A0FD28FE9F670001892A /* User.swift */; };
 		DFCA4D2D28FC186900164F72 /* LocationInputActivationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFCA4D2C28FC186900164F72 /* LocationInputActivationView.swift */; };
@@ -39,6 +41,7 @@
 		DF4439DC28F5D99E000066E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DF4439E828F5D9EF000066E1 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		DF4439EA28F5DBB6000066E1 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		DF6DC94028FFEF4500A2C073 /* DriverAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverAnnotation.swift; sourceTree = "<group>"; };
 		DF74201F28F727E700830057 /* AuthField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthField.swift; sourceTree = "<group>"; };
 		DF74202128F7318800830057 /* AuthButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthButton.swift; sourceTree = "<group>"; };
 		DF74202428F7367300830057 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
@@ -46,6 +49,7 @@
 		DF8B0BC628FDD1D7007FB066 /* LocationTableHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTableHeader.swift; sourceTree = "<group>"; };
 		DFA5B2E128F6CE8D0024C92E /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		DFB2082628F826E50029158D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		DFBD663128FF0DA000873D88 /* LocationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationHandler.swift; sourceTree = "<group>"; };
 		DFC2A0FB28FE96120001892A /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		DFC2A0FD28FE9F670001892A /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		DFCA4D2C28FC186900164F72 /* LocationInputActivationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInputActivationView.swift; sourceTree = "<group>"; };
@@ -119,6 +123,7 @@
 			isa = PBXGroup;
 			children = (
 				DFC2A0FB28FE96120001892A /* Service.swift */,
+				DFBD663128FF0DA000873D88 /* LocationHandler.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -145,6 +150,7 @@
 			isa = PBXGroup;
 			children = (
 				DFC2A0FD28FE9F670001892A /* User.swift */,
+				DF6DC94028FFEF4500A2C073 /* DriverAnnotation.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -325,10 +331,12 @@
 				DFCA4D2D28FC186900164F72 /* LocationInputActivationView.swift in Sources */,
 				DFC2A0FC28FE96120001892A /* Service.swift in Sources */,
 				DF74202028F727E700830057 /* AuthField.swift in Sources */,
+				DF6DC94128FFEF4500A2C073 /* DriverAnnotation.swift in Sources */,
 				DF74202228F7318800830057 /* AuthButton.swift in Sources */,
 				DF4439E928F5D9EF000066E1 /* LoginViewController.swift in Sources */,
 				DF8B0BC728FDD1D7007FB066 /* LocationTableHeader.swift in Sources */,
 				DFA5B2E228F6CE8D0024C92E /* RegisterViewController.swift in Sources */,
+				DFBD663228FF0DA000873D88 /* LocationHandler.swift in Sources */,
 				DF74202528F7367300830057 /* AuthViewModel.swift in Sources */,
 				DFC2A0FE28FE9F670001892A /* User.swift in Sources */,
 				DFDFE7D028FDB64400E2B700 /* LocationTableViewCell.swift in Sources */,

@@ -7,11 +7,13 @@
 
 import UIKit
 import Firebase
+import GeoFire
 
 class RegisterViewController: UIViewController {
     
     // MARK: - Properties
     private var viewModel = RegistrationViewModel()
+    private var location = LocationHandler.shared.locationManager?.location
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -138,6 +140,13 @@ class RegisterViewController: UIViewController {
         passwordTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
     }
     
+    private func uploadUserDataAndShowHomeVC(uid: String, values: [String: Any]) {
+        REF_USERS.child(uid).updateChildValues(values) { [weak self] error, ref in
+            self?.dismiss(animated: true)
+            print("Successfully registered user and saved data...")
+        }
+    }
+    
     // MARK: - Actions
     
     @objc private func textDidChange(sender: UITextField) {
@@ -186,10 +195,17 @@ class RegisterViewController: UIViewController {
                 "accountType": accountTypeIndex
             ] as [String: Any]
             
-            Database.database().reference().child("users").child(uid).updateChildValues(values) { [weak self] error, ref in
-                self?.dismiss(animated: true)
-                print("Successfully registered user and saved data...")
+            if accountTypeIndex == 1 {
+                let geoFire = GeoFire(firebaseRef: REF_DRIVER_LOCATIONS)
+                guard let location = self.location else {
+                    return
+                }
+                geoFire.setLocation(location, forKey: uid) { error in
+                    self.uploadUserDataAndShowHomeVC(uid: uid, values: values)
+                }
             }
+            
+            self.uploadUserDataAndShowHomeVC(uid: uid, values: values)
         }
     }
     
