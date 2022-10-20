@@ -25,32 +25,19 @@ class HomeViewController: UIViewController {
         return table
     }()
     
+    private var searchResults = [MKPlacemark]()
     private var user: User?
     
     override func viewWillAppear(_ animated: Bool) {
-        if Auth.auth().currentUser != nil {
-            configureUI()
-            fetchUserData()
-            fetchDrivers()
-        }
+        checkIfUserIsLoggedIn()
     }
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        checkIfUserIsLoggedIn()
+        
         enableLocationServices()
 //        signOut()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        tableView.frame = CGRect(
-            x: 0,
-            y: view.height,
-            width: view.width,
-            height: view.height - heightLocationInputView
-        )
     }
     
     // MARK: - API
@@ -97,6 +84,9 @@ class HomeViewController: UIViewController {
         if Auth.auth().currentUser?.uid == nil {
             presentLoginController()
         }
+        else {
+            configure()
+        }
     }
     
     private func signOut() {
@@ -109,6 +99,12 @@ class HomeViewController: UIViewController {
         }
     }
     // MARK: - Helpers
+    
+    private func configure() {
+        configureUI()
+        fetchUserData()
+        fetchDrivers()
+    }
     
     private func configureUI() {
         configureMapView()
@@ -143,6 +139,13 @@ class HomeViewController: UIViewController {
         tableView.tableFooterView = UIView()
         
         view.addSubview(tableView)
+        
+        tableView.frame = CGRect(
+            x: 0,
+            y: view.height,
+            width: view.width,
+            height: view.height - heightLocationInputView
+        )
         
         if #available(iOS 15.0, *) {
             tableView.sectionHeaderTopPadding = 0
@@ -186,6 +189,29 @@ class HomeViewController: UIViewController {
     
     // MARK: - Actions
     
+}
+
+// MARK: - MapView Helper Functions
+
+private extension HomeViewController {
+    func searchBy(naturalLanguageQuery: String, completion: @escaping([MKPlacemark]) -> Void) {
+        var results = [MKPlacemark]()
+        
+        let request = MKLocalSearch.Request()
+        request.region = mapView.region
+        request.naturalLanguageQuery = naturalLanguageQuery
+        
+        let search = MKLocalSearch(request: request)
+        search.start { (response, error) in
+            guard let response = response else { return }
+            
+            response.mapItems.forEach({ item in
+                results.append(item.placemark)
+            })
+            
+            completion(results)
+        }
+    }
 }
 
 // MARK: - MKMapViewDelegate
@@ -241,8 +267,14 @@ extension HomeViewController: LocationInputActivationViewDelegate {
 }
 
 extension HomeViewController: LocationInputViewDelegate {
+    func executeSearch(query: String) {
+        searchBy(naturalLanguageQuery: query) { (results) in
+            self.searchResults = results
+            self.tableView.reloadData()
+        }
+    }
+    
     func dismissLocationInputView() {
-        
         let animator = UIViewPropertyAnimator(duration: 0.3, curve: .linear) {
             self.locationInputView.alpha = 0
             self.tableView.frame.origin.y = self.view.height
@@ -280,7 +312,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == 0 ? 2 : 5
+        return section == 0 ? 2 : searchResults.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -290,6 +322,12 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         ) as? LocationTableViewCell else {
             preconditionFailure("LocationTableViewCell error")
         }
+        
+        if indexPath.section == 1 {
+            let placemark = searchResults[indexPath.row]
+            cell.configureLabel(placemark: placemark)
+        }
+        
         return cell
     }
     

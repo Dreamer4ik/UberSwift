@@ -8,6 +8,7 @@
 import UIKit
 import CoreGraphics
 import Accelerate
+import MapKit
 
 extension UIColor {
     static func rgb(red: CGFloat, green: CGFloat, blue: CGFloat) -> UIColor {
@@ -151,6 +152,19 @@ extension UIView {
     
     public var right: CGFloat {
         return frame.size.width + frame.origin.x
+    }
+}
+
+extension MKPlacemark {
+    var address: String? {
+        get {
+            guard let subThoroughfare = subThoroughfare else { return nil }
+            guard let thoroughfare = thoroughfare else { return nil }
+            guard let locality = locality else { return nil }
+            guard let adminArea = administrativeArea else { return nil }
+            
+            return "\(subThoroughfare) \(thoroughfare), \(locality), \(adminArea) "
+        }
     }
 }
 

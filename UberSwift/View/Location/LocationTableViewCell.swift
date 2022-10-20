@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import MapKit
 
 class LocationTableViewCell: UITableViewCell {
     // MARK: - Properties
@@ -14,7 +15,6 @@ class LocationTableViewCell: UITableViewCell {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14)
-        label.text = "I Feel Coffee"
         return label
     }()
     
@@ -22,7 +22,6 @@ class LocationTableViewCell: UITableViewCell {
         let label = UILabel()
         label.font = .systemFont(ofSize: 14)
         label.textColor = .lightGray
-        label.text = "32 Komercial Street, Krivoy Rog"
         return label
     }()
     
@@ -42,6 +41,17 @@ class LocationTableViewCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    override func prepareForReuse() {
+        titleLabel.text = nil
+        addressLabel.text = nil
+    }
+    
+    func configureLabel(placemark: MKPlacemark) {
+        titleLabel.text = placemark.name
+        addressLabel.text = placemark.address
     }
     
 }
