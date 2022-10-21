@@ -25,6 +25,7 @@ class HomeViewController: UIViewController {
     private let mapView = MKMapView()
     private let locationManager = LocationHandler.shared.locationManager
     private var searchResults = [MKPlacemark]()
+    private var route: MKRoute?
     
     private let heightLocationInputView: CGFloat = 200
     
@@ -246,11 +247,9 @@ class HomeViewController: UIViewController {
         case .showMenu:
             print("Show menu")
         case .dismissActionView:
-            mapView.annotations.forEach { annotation in
-                if let annotation = annotation as? MKPointAnnotation {
-                    mapView.removeAnnotation(annotation)
-                }
-            }
+            
+            removeAnnotationsAndOverlays()
+            mapView.showAnnotations(mapView.annotations, animated: true)
             
             let animator = UIViewPropertyAnimator(duration: 0.5, curve: .linear) {
                 self.inputActivationView.alpha = 1
@@ -283,6 +282,39 @@ private extension HomeViewController {
             completion(results)
         }
     }
+    
+    func generatePolyline(toDestination destination: MKMapItem) {
+        let request = MKDirections.Request()
+        request.source = MKMapItem.forCurrentLocation()
+        request.destination = destination
+        request.transportType = .automobile
+        
+        let directionRequest = MKDirections(request: request)
+        directionRequest.calculate { response, error in
+            guard let response = response else {
+                return
+            }
+            
+            self.route = response.routes[0]
+            
+            guard let polyline = self.route?.polyline else {
+                return
+            }
+            self.mapView.addOverlay(polyline)
+        }
+    }
+    
+    func removeAnnotationsAndOverlays() {
+        mapView.annotations.forEach { annotation in
+            if let annotation = annotation as? MKPointAnnotation {
+                mapView.removeAnnotation(annotation)
+            }
+        }
+        
+        if mapView.overlays.count > 0 {
+            mapView.removeOverlay(mapView.overlays[0])
+        }
+    }
 }
 
 // MARK: - MKMapViewDelegate
@@ -295,6 +327,17 @@ extension HomeViewController : MKMapViewDelegate {
         let image = UIImage(named: "car_icon")?.resizeWithScaleAspectFitMode(to: 47)
         view.image = image
         return view
+    }
+    
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        if let route = route {
+            let polyline = route.polyline
+            let lineRenderer = MKPolylineRenderer(polyline: polyline)
+            lineRenderer.strokeColor = .mainBlueTint
+            lineRenderer.lineWidth = 3
+            return lineRenderer
+        }
+        return MKOverlayRenderer()
     }
 }
 // MARK: - Location Services
@@ -405,11 +448,22 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         
         configureActionButton(config: .dismissActionView)
         
+        let destination = MKMapItem(placemark: selectedPlacemark)
+        generatePolyline(toDestination: destination)
+        
         dismissLocationView {
             let annotation = MKPointAnnotation()
             annotation.coordinate = selectedPlacemark.coordinate
             self.mapView.addAnnotation(annotation)
             self.mapView.selectAnnotation(annotation, animated: true)
+            
+            let annotations = self.mapView.annotations.filter {
+                !$0.isKind(of: DriverAnnotation.self)
+            }
+            
+            self.mapView.showAnnotations(annotations, animated: true)
         }
+        
+       
     }
 }
