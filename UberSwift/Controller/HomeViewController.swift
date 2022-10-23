@@ -27,9 +27,11 @@ class HomeViewController: UIViewController {
     private var searchResults = [MKPlacemark]()
     private var route: MKRoute?
     
-    private let heightLocationInputView: CGFloat = 200
+    private final let heightLocationInputViewHeight: CGFloat = 200
+    private final let rideActionViewHeight: CGFloat = 300
     
     private let inputActivationView = LocationInputActivationView()
+    private let rideActionView = RideActionView()
     private let locationInputView = LocationInputView()
     private var actionButtonConfig = ActionButtonConfiguration()
     
@@ -139,8 +141,19 @@ class HomeViewController: UIViewController {
         }
     }
     
+    private func configureRideActionView() {
+        view.addSubview(rideActionView)
+        rideActionView.frame = CGRect(
+            x: 0,
+            y: view.height,
+            width: view.width,
+            height: rideActionViewHeight
+        )
+    }
+    
     private func configureUI() {
         configureMapView()
+        configureRideActionView()
         
         view.addSubview(actionButton)
         actionButton.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor,
@@ -183,7 +196,7 @@ class HomeViewController: UIViewController {
             x: 0,
             y: view.height,
             width: view.width,
-            height: view.height - heightLocationInputView
+            height: view.height - heightLocationInputViewHeight
         )
         
         if #available(iOS 15.0, *) {
@@ -207,14 +220,14 @@ class HomeViewController: UIViewController {
         locationInputView.delegate = self
         view.addSubview(locationInputView)
         locationInputView.anchor(top: view.topAnchor, left: view.leftAnchor,
-                                 right: view.rightAnchor, height: heightLocationInputView)
+                                 right: view.rightAnchor, height: heightLocationInputViewHeight)
         locationInputView.alpha = 0
         
         let animator = UIViewPropertyAnimator(duration: 0.5, curve: .linear) {
             self.locationInputView.alpha = 1
         }
         let animator2 = UIViewPropertyAnimator(duration: 0.3, curve: .linear) {
-            self.tableView.frame.origin.y = self.heightLocationInputView
+            self.tableView.frame.origin.y = self.heightLocationInputViewHeight
         }
         animator.addCompletion { _ in
             animator2.startAnimation()
@@ -236,7 +249,22 @@ class HomeViewController: UIViewController {
         animator.addCompletion { _ in
             completion?()
         }
+        animator.startAnimation()
+    }
+    
+    private func animateRideActionView(shouldShow: Bool, destination: MKPlacemark? = nil) {
+        let yOrigin = shouldShow ? self.view.frame.height - self.rideActionViewHeight : self.view.frame.height
         
+        if shouldShow {
+            guard let destination = destination else {
+                return
+            }
+            rideActionView.configureLabel(placemark: destination)
+        }
+        
+        let animator = UIViewPropertyAnimator(duration: 0.3, curve: .linear) {
+            self.rideActionView.frame.origin.y = yOrigin
+        }
         animator.startAnimation()
     }
     
@@ -254,6 +282,7 @@ class HomeViewController: UIViewController {
             let animator = UIViewPropertyAnimator(duration: 0.5, curve: .linear) {
                 self.inputActivationView.alpha = 1
                 self.configureActionButton(config: .showMenu)
+                self.animateRideActionView(shouldShow: false)
             }
             animator.startAnimation()
         }
@@ -452,16 +481,14 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         generatePolyline(toDestination: destination)
         
         dismissLocationView {
-            let annotation = MKPointAnnotation()
-            annotation.coordinate = selectedPlacemark.coordinate
-            self.mapView.addAnnotation(annotation)
-            self.mapView.selectAnnotation(annotation, animated: true)
+            self.mapView.addAnnotationAndSelect(forCoordinate: selectedPlacemark.coordinate)
             
             let annotations = self.mapView.annotations.filter {
                 !$0.isKind(of: DriverAnnotation.self)
             }
             
-            self.mapView.showAnnotations(annotations, animated: true)
+            self.mapView.zoomToFit(annotations: annotations)
+            self.animateRideActionView(shouldShow: true, destination: selectedPlacemark)
         }
         
        
