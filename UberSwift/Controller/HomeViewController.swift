@@ -67,13 +67,19 @@ class HomeViewController: UIViewController {
         guard let currentUid = Auth.auth().currentUser?.uid else {
             return
         }
-        Service.shared.fetchUserData(uid: currentUid) { user in
-            self.user = user
+        Service.shared.fetchUserData(uid: currentUid) { [weak self] user in
+            self?.user = user
+            
+            if user.accountType == .passenger {
+                self?.fetchDrivers()
+                self?.configureLocationInputActivationView()
+            }
         }
     }
     
     private func fetchDrivers() {
-        guard let location = locationManager?.location else {
+        guard let location = locationManager?.location,
+              user?.accountType == .passenger else {
             return
         }
         Service.shared.fetchDrivers(location: location) { driver in
@@ -125,7 +131,6 @@ class HomeViewController: UIViewController {
     private func configure() {
         configureUI()
         fetchUserData()
-        fetchDrivers()
     }
     
     private func configureActionButton(config: ActionButtonConfiguration) {
@@ -143,6 +148,7 @@ class HomeViewController: UIViewController {
     
     private func configureRideActionView() {
         view.addSubview(rideActionView)
+        rideActionView.delegate = self
         rideActionView.frame = CGRect(
             x: 0,
             y: view.height,
@@ -159,19 +165,7 @@ class HomeViewController: UIViewController {
         actionButton.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor,
                             paddingLeft: 20, width: 30, height: 30)
         
-        view.addSubview(inputActivationView)
-        inputActivationView.centerX(inView: view)
-        inputActivationView.setDimensions(height: 50, width: view.width - 64)
-        inputActivationView.anchor(top: actionButton.bottomAnchor, paddingTop: 32)
-        inputActivationView.alpha = 0
-        
-        inputActivationView.delegate = self
         configureTable()
-        
-        let animator = UIViewPropertyAnimator(duration: 2, curve: .easeOut) {
-            self.inputActivationView.alpha = 1
-        }
-        animator.startAnimation()
         
         actionButton.addTarget(self, action: #selector(didTapActionButton), for: .touchUpInside)
     }
@@ -202,6 +196,20 @@ class HomeViewController: UIViewController {
         if #available(iOS 15.0, *) {
             tableView.sectionHeaderTopPadding = 0
         }
+    }
+    
+    private func configureLocationInputActivationView() {
+        view.addSubview(inputActivationView)
+        inputActivationView.centerX(inView: view)
+        inputActivationView.setDimensions(height: 50, width: view.width - 64)
+        inputActivationView.anchor(top: actionButton.bottomAnchor, paddingTop: 32)
+        inputActivationView.alpha = 0
+        inputActivationView.delegate = self
+        
+        let animator = UIViewPropertyAnimator(duration: 1, curve: .linear) {
+            self.inputActivationView.alpha = 1
+        }
+        animator.startAnimation()
     }
     
     private func presentLoginController() {
@@ -490,7 +498,23 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             self.mapView.zoomToFit(annotations: annotations)
             self.animateRideActionView(shouldShow: true, destination: selectedPlacemark)
         }
-        
-       
+    }
+}
+
+extension HomeViewController: RideActionViewDelegate {
+    func uploadTrip(_ view: RideActionView) {
+        guard let pickupCoordinates = locationManager?.location?.coordinate,
+              let destinationCoordinates = view.destination?.coordinate else {
+            return
+        }
+        Service.shared.uploadTrip(pickupCoordinates: pickupCoordinates, destinationCoordinates: destinationCoordinates) { error, ref in
+            if let error = error {
+                print("Failed to upload trip with error")
+                return
+            }
+            
+            print("Place: \(view.destination?.name)")
+            print("Did upload trip successfully")
+        }
     }
 }
