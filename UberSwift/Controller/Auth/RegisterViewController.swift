@@ -142,7 +142,9 @@ class RegisterViewController: UIViewController {
     
     private func uploadUserDataAndShowHomeVC(uid: String, values: [String: Any]) {
         REF_USERS.child(uid).updateChildValues(values) { [weak self] error, ref in
-            self?.dismiss(animated: true)
+            self?.dismiss(animated: true, completion: {
+                NotificationCenter.default.post(name: NSNotification.Name("AuthFetchData"), object: nil)
+            })
             print("Successfully registered user and saved data...")
         }
     }

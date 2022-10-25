@@ -135,7 +135,9 @@ class LoginViewController: UIViewController {
                 return
             }
             
-            self?.dismiss(animated: true)
+            self?.dismiss(animated: true, completion: {
+                NotificationCenter.default.post(name: NSNotification.Name("AuthFetchData"), object: nil)
+            })
             print("Successfully logged user...")
             
         }

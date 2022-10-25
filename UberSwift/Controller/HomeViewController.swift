@@ -21,7 +21,6 @@ private enum ActionButtonConfiguration {
 class HomeViewController: UIViewController {
     // MARK: - Properties
     
-    private var user: User?
     private let mapView = MKMapView()
     private let locationManager = LocationHandler.shared.locationManager
     private var searchResults = [MKPlacemark]()
@@ -48,7 +47,30 @@ class HomeViewController: UIViewController {
         return button
     }()
     
-   
+    private var user: User? {
+        didSet {
+            if user?.accountType == .passenger {
+                fetchDrivers()
+                configureLocationInputActivationView()
+            }
+            else {
+                observeTrips()
+            }
+        }
+    }
+    
+    private var trip: Trip? {
+        didSet {
+            guard let trip = trip else {
+                return
+            }
+            let vc = PickupViewController(trip: trip)
+            vc.delegate = self
+            vc.modalPresentationStyle = .fullScreen
+            self.present(vc, animated: true)
+        }
+    }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         checkIfUserIsLoggedIn()
@@ -57,6 +79,12 @@ class HomeViewController: UIViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if Auth.auth().currentUser?.uid != nil && user == nil {
+            fetchUserData()
+        }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(config), name: NSNotification.Name(rawValue: "AuthFetchData"), object: nil)
         
         enableLocationServices()
 //        signOut()
@@ -69,11 +97,6 @@ class HomeViewController: UIViewController {
         }
         Service.shared.fetchUserData(uid: currentUid) { [weak self] user in
             self?.user = user
-            
-            if user.accountType == .passenger {
-                self?.fetchDrivers()
-                self?.configureLocationInputActivationView()
-            }
         }
     }
     
@@ -108,12 +131,18 @@ class HomeViewController: UIViewController {
         }
     }
     
+    private func observeTrips() {
+        Service.shared.observeTrips { trip in
+            self.trip = trip
+        }
+    }
+    
     private func checkIfUserIsLoggedIn() {
         if Auth.auth().currentUser?.uid == nil {
             presentLoginController()
         }
         else {
-            configure()
+             configureUI()
         }
     }
     
@@ -127,11 +156,6 @@ class HomeViewController: UIViewController {
         }
     }
     // MARK: - Helpers
-    
-    private func configure() {
-        configureUI()
-        fetchUserData()
-    }
     
     private func configureActionButton(config: ActionButtonConfiguration) {
         switch config {
@@ -296,6 +320,10 @@ class HomeViewController: UIViewController {
         }
     }
     
+    @objc private func config() {
+        fetchUserData()
+    }
+    
 }
 
 // MARK: - MapView Helper Functions
@@ -377,6 +405,7 @@ extension HomeViewController : MKMapViewDelegate {
         return MKOverlayRenderer()
     }
 }
+
 // MARK: - Location Services
 extension HomeViewController {
     private func enableLocationServices() {
@@ -409,6 +438,7 @@ extension HomeViewController {
         }
     }
 }
+
 // MARK: - LocationInputActivationViewDelegate
 extension HomeViewController: LocationInputActivationViewDelegate {
     func presentLocationInputView() {
@@ -435,6 +465,7 @@ extension HomeViewController: LocationInputViewDelegate {
     }
     
 }
+
 // MARK: - TableViewDelegate
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
@@ -501,6 +532,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
+// MARK: - RideActionViewDelegate
 extension HomeViewController: RideActionViewDelegate {
     func uploadTrip(_ view: RideActionView) {
         guard let pickupCoordinates = locationManager?.location?.coordinate,
@@ -516,5 +548,13 @@ extension HomeViewController: RideActionViewDelegate {
             print("Place: \(view.destination?.name)")
             print("Did upload trip successfully")
         }
+    }
+}
+
+// MARK: - PickupViewControllerDelegate
+extension HomeViewController: PickupViewControllerDelegate {
+    func didAcceptTrip(_ trip: Trip) {
+        self.trip?.state = .accepted
+        self.dismiss(animated: true)
     }
 }

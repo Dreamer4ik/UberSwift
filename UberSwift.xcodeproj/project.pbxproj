@@ -28,6 +28,7 @@
 		DFC2A0FC28FE96120001892A /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC2A0FB28FE96120001892A /* Service.swift */; };
 		DFC2A0FE28FE9F670001892A /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC2A0FD28FE9F670001892A /* User.swift */; };
 		DFCA4D2D28FC186900164F72 /* LocationInputActivationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFCA4D2C28FC186900164F72 /* LocationInputActivationView.swift */; };
+		DFDB88F5290704B8002C1F4F /* PickupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFDB88F4290704B8002C1F4F /* PickupViewController.swift */; };
 		DFDFE7D028FDB64400E2B700 /* LocationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFDFE7CF28FDB64400E2B700 /* LocationTableViewCell.swift */; };
 		DFE5CD6728FD4A280003357B /* LocationInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFE5CD6628FD4A280003357B /* LocationInputView.swift */; };
 /* End PBXBuildFile section */
@@ -57,6 +58,7 @@
 		DFC2A0FB28FE96120001892A /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		DFC2A0FD28FE9F670001892A /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		DFCA4D2C28FC186900164F72 /* LocationInputActivationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInputActivationView.swift; sourceTree = "<group>"; };
+		DFDB88F4290704B8002C1F4F /* PickupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickupViewController.swift; sourceTree = "<group>"; };
 		DFDFE7CF28FDB64400E2B700 /* LocationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTableViewCell.swift; sourceTree = "<group>"; };
 		DFE5CD6628FD4A280003357B /* LocationInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInputView.swift; sourceTree = "<group>"; };
 		EB1C033A1E6452039D1CC030 /* Pods_UberSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UberSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -137,6 +139,7 @@
 			children = (
 				DF4439E728F5D9E2000066E1 /* Auth */,
 				DF8717A428F95EAA00B32493 /* HomeViewController.swift */,
+				DFDB88F4290704B8002C1F4F /* PickupViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -334,6 +337,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DFDB88F5290704B8002C1F4F /* PickupViewController.swift in Sources */,
 				DFCA4D2D28FC186900164F72 /* LocationInputActivationView.swift in Sources */,
 				DFC2A0FC28FE96120001892A /* Service.swift in Sources */,
 				DF74202028F727E700830057 /* AuthField.swift in Sources */,
