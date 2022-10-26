@@ -87,4 +87,18 @@ final class Service {
         REF_TRIPS.child(trip.passengerUid).updateChildValues(values, withCompletionBlock: completion)
     }
     
+    func observeCurrentTrip(completion: @escaping (Trip) -> Void) {
+        guard let currentUid = currentUid else {
+            return
+        }
+        
+        REF_TRIPS.child(currentUid).observe(.value) { snapshot in
+            guard let dictionary = snapshot.value as? [String: Any] else {
+                return
+            }
+            let uid = snapshot.key
+            let trip = Trip(passengerUid: uid, dictionary: dictionary)
+            completion(trip)
+        }
+    }
 }

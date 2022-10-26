@@ -191,6 +191,57 @@ extension MKMapView {
     }
 }
 
+extension UIViewController {
+    func shouldPresentLoadingView(_ present: Bool, message: String? = nil) {
+        if present {
+            let loadingView = UIView()
+            loadingView.frame = view.bounds
+            loadingView.backgroundColor = .black
+            loadingView.alpha = 0
+            loadingView.tag = 1
+            
+            let indicator = UIActivityIndicatorView()
+            indicator.style = .large
+            indicator.color = .white
+            indicator.center = view.center
+            
+            let label = UILabel()
+            label.text = message
+            label.font = .systemFont(ofSize: 20)
+            label.textColor = .white
+            label.textAlignment = .center
+            label.alpha = 0.87
+
+            view.addSubview(loadingView)
+            loadingView.addSubview(indicator)
+            loadingView.addSubview(label)
+
+            label.centerX(inView: view)
+            label.anchor(top: indicator.bottomAnchor, paddingTop: 32)
+            
+            indicator.startAnimating()
+            
+            let animator = UIViewPropertyAnimator(duration: 0.3, curve: .linear) {
+                loadingView.alpha = 0.7
+            }
+            animator.startAnimation()
+        }
+        else {
+            view.subviews.forEach { subview in
+                if subview.tag == 1 {
+                    let animator = UIViewPropertyAnimator(duration: 0.3, curve: .linear) {
+                        subview.alpha = 0
+                    }
+                    animator.addCompletion { _ in
+                        subview.removeFromSuperview()
+                    }
+                    animator.startAnimation()
+                }
+            }
+        }
+    }
+}
+
 extension UIImage {
     public enum ResizeFramework {
         case uikit, coreImage, coreGraphics, imageIO, accelerate
