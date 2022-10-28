@@ -75,6 +75,12 @@ final class Service {
         }
     }
     
+    func observeTripCancelled(trip: Trip, completion: @escaping () -> Void) {
+        REF_TRIPS.child(trip.passengerUid).observeSingleEvent(of: .childRemoved) { _ in
+            completion()
+        }
+    }
+    
     func acceptTrip(trip: Trip, completion: @escaping (Error?, DatabaseReference) -> Void) {
         guard let currentUid = currentUid else {
             return
@@ -100,5 +106,13 @@ final class Service {
             let trip = Trip(passengerUid: uid, dictionary: dictionary)
             completion(trip)
         }
+    }
+    
+    func cancelTrip(completion: @escaping (Error?, DatabaseReference) -> Void) {
+        guard let currentUid = currentUid else {
+            return
+        }
+        
+        REF_TRIPS.child(currentUid).removeValue(completionBlock: completion)
     }
 }
