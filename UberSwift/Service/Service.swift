@@ -115,4 +115,16 @@ final class Service {
         
         REF_TRIPS.child(currentUid).removeValue(completionBlock: completion)
     }
+    
+    func updateDriverLocation(location: CLLocation) {
+        guard let currentUid = currentUid else {
+            return
+        }
+        let geoFire = GeoFire(firebaseRef: REF_DRIVER_LOCATIONS)
+        geoFire.setLocation(location, forKey: currentUid)
+    }
+    
+    func updateTripState(trip: Trip, state: TripState) {
+        REF_TRIPS.child(trip.passengerUid).child("state").setValue(state.rawValue)
+    }
 }
