@@ -118,7 +118,7 @@ class PickupViewController: UIViewController {
     }
     
     @objc private func didTapAcceptButton() {
-        Service.shared.acceptTrip(trip: trip) { error, ref in
+        DriverService.shared.acceptTrip(trip: trip) { error, ref in
             self.delegate?.didAcceptTrip(self.trip)
         }
     }

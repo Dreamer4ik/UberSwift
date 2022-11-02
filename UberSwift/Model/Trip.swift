@@ -11,6 +11,7 @@ enum TripState: Int {
     case requested
     case accepted
     case driverArrived
+    case arrivedAtDestination
     case inProgress
     case completed
 }
