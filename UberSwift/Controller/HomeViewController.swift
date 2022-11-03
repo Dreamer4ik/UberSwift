@@ -23,9 +23,13 @@ private enum AnnotationType: String {
     case destination
 }
 
+protocol HomeViewControllerDelegate: AnyObject {
+    func didTapShowMenu()
+}
+
 class HomeViewController: UIViewController {
     // MARK: - Properties
-    
+    weak var delegate: HomeViewControllerDelegate?
     private let mapView = MKMapView()
     private let locationManager = LocationHandler.shared.locationManager
     private var searchResults = [MKPlacemark]()
@@ -52,7 +56,7 @@ class HomeViewController: UIViewController {
         return button
     }()
     
-    private var user: User? {
+    var user: User? {
         didSet {
             guard let user = user else { return }
             if user.accountType == .passenger {
@@ -94,9 +98,10 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if Auth.auth().currentUser?.uid != nil && user == nil {
-            fetchUserData()
-        }
+        // FixME
+//        if Auth.auth().currentUser?.uid != nil && user == nil {
+//            fetchUserData()
+//        }
         
         NotificationCenter.default.addObserver(self, selector: #selector(config), name: NSNotification.Name(rawValue: "AuthFetchData"), object: nil)
         
@@ -223,14 +228,6 @@ class HomeViewController: UIViewController {
     }
     
     // MARK: - Shared API
-    private func fetchUserData() {
-        guard let currentUid = Auth.auth().currentUser?.uid else {
-            return
-        }
-        Service.shared.fetchUserData(uid: currentUid) { [weak self] user in
-            self?.user = user
-        }
-    }
     
     private func checkIfUserIsLoggedIn() {
         if Auth.auth().currentUser?.uid == nil {
@@ -412,7 +409,7 @@ class HomeViewController: UIViewController {
     @objc private func didTapActionButton() {
         switch actionButtonConfig {
         case .showMenu:
-            print("Show menu")
+            delegate?.didTapShowMenu()
         case .dismissActionView:
             
             removeAnnotationsAndOverlays()
@@ -428,7 +425,8 @@ class HomeViewController: UIViewController {
     }
     
     @objc private func config() {
-        fetchUserData()
+        // FixME
+//        fetchUserData()
     }
     
 }
