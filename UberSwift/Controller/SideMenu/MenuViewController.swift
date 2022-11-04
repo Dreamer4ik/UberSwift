@@ -7,11 +7,33 @@
 
 import UIKit
 
+enum MenuOptions: Int, CaseIterable, CustomStringConvertible {
+    case yourTrips
+    case settings
+    case logout
+    
+    var description: String {
+        switch self {
+        case .yourTrips:
+            return "Your trips"
+        case .settings:
+            return "Settings"
+        case .logout:
+            return "Log Out"
+        }
+    }
+}
+
+protocol MenuViewControllerDelegate: AnyObject {
+    func didSelect(option: MenuOptions)
+}
+
 class MenuViewController: UIViewController {
     
     // MARK: - Properties
     
     private let user: User
+    weak var delegate: MenuViewControllerDelegate?
     
     private let tablewView: UITableView = {
         let table = UITableView()
@@ -66,22 +88,29 @@ class MenuViewController: UIViewController {
 
 extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return MenuOptions.allCases.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        guard let option = MenuOptions(rawValue: indexPath.row) else { preconditionFailure("MenuOptions error") }
         if #available(iOS 14.0, *) {
-                    var config = cell.defaultContentConfiguration()
-                    config.text = "Menu Option"
-                    cell.contentConfiguration = config
-                } else {
-                    cell.textLabel?.text = "Menu Option"
-                }
+            var config = cell.defaultContentConfiguration()
+            config.text = option.description
+            cell.contentConfiguration = config
+        } else {
+            cell.textLabel?.text = option.description
+        }
+        cell.selectionStyle = .none
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let option = MenuOptions(rawValue: indexPath.row) else { return }
+        delegate?.didSelect(option: option)
     }
 }

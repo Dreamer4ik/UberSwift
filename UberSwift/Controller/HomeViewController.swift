@@ -89,24 +89,11 @@ class HomeViewController: UIViewController {
         }
     }
     
-    
-    override func viewWillAppear(_ animated: Bool) {
-        checkIfUserIsLoggedIn()
-    }
-    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // FixME
-//        if Auth.auth().currentUser?.uid != nil && user == nil {
-//            fetchUserData()
-//        }
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(config), name: NSNotification.Name(rawValue: "AuthFetchData"), object: nil)
-        
+        configureUI()
         enableLocationServices()
-//        signOut()
     }
     
     // MARK: - Passenger API
@@ -226,27 +213,6 @@ class HomeViewController: UIViewController {
                                         message: "The passenger has decided to cancel this ride. Press OK to continue.")
         }
     }
-    
-    // MARK: - Shared API
-    
-    private func checkIfUserIsLoggedIn() {
-        if Auth.auth().currentUser?.uid == nil {
-            presentLoginController()
-        }
-        else {
-             configureUI()
-        }
-    }
-    
-    private func signOut() {
-        do {
-            try Auth.auth().signOut()
-            presentLoginController()
-        }
-        catch {
-            print("Error signOut")
-        }
-    }
     // MARK: - Helpers
     
     private func configureActionButton(config: ActionButtonConfiguration) {
@@ -326,18 +292,6 @@ class HomeViewController: UIViewController {
             self.inputActivationView.alpha = 1
         }
         animator.startAnimation()
-    }
-    
-    private func presentLoginController() {
-        DispatchQueue.main.async {
-            let vc = LoginViewController()
-            let nav = UINavigationController(rootViewController: vc)
-            if #available(iOS 13.0, *) {
-                nav.isModalInPresentation = true
-            }
-            nav.modalPresentationStyle = .fullScreen
-            self.present(nav, animated: true, completion: nil)
-        }
     }
     
     func configureLocationInputView() {
@@ -422,11 +376,6 @@ class HomeViewController: UIViewController {
             }
             animator.startAnimation()
         }
-    }
-    
-    @objc private func config() {
-        // FixME
-//        fetchUserData()
     }
     
 }
