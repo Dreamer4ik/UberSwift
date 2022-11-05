@@ -1,13 +1,13 @@
 //
-//  MenuHeader.swift
+//  UserInfoHeader.swift
 //  UberSwift
 //
-//  Created by Ivan Potapenko on 03.11.2022.
+//  Created by Ivan Potapenko on 05.11.2022.
 //
 
 import UIKit
 
-class MenuHeader: UIView {
+class UserInfoHeader: UIView {
     // MARK: - Properties
     private let user: User
     
@@ -20,7 +20,6 @@ class MenuHeader: UIView {
     private let fullnameLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 16)
-        label.textColor = .white
         label.text = "iOS Dev"
         return label
     }()
@@ -35,19 +34,16 @@ class MenuHeader: UIView {
     }()
     
     // MARK: - Lifecycle
-    
     init(user: User, frame: CGRect) {
         self.user = user
         super.init(frame: frame)
-        backgroundColor = .backgroundColor
+        backgroundColor = .white
         configureLabels(user: user)
         
         addSubview(profileImageView)
         let profileImageSize: CGFloat = 64
-    
-        let height: CGFloat = UIApplication.shared.statusBarHeight
-        profileImageView.anchor(top: topAnchor, left: leftAnchor, paddingTop: height == 0 ? 54 : height,
-                                paddingLeft: 12, width: profileImageSize, height: profileImageSize)
+        profileImageView.centerY(inView: self, leftAnchor: leftAnchor, paddingLeft: 16)
+        profileImageView.setDimensions(height: profileImageSize, width: profileImageSize)
         profileImageView.layer.cornerRadius = profileImageSize/2
         
         let stack = UIStackView(arrangedSubviews: [fullnameLabel, emailLabel])
@@ -69,24 +65,5 @@ class MenuHeader: UIView {
     private func configureLabels(user: User) {
         fullnameLabel.text = user.fullname
         emailLabel.text = user.email
-    }
-    
-    // MARK: - Actions
-}
-
-extension UIApplication {
-    var statusBarHeight: CGFloat {
-        connectedScenes
-            .compactMap {
-                $0 as? UIWindowScene
-            }
-            .compactMap {
-                $0.statusBarManager
-            }
-            .map {
-                $0.statusBarFrame
-            }
-            .map(\.height)
-            .max() ?? 0
     }
 }

@@ -12,7 +12,6 @@ class LocationTableHeader: UITableViewHeaderFooterView {
     
     private let label: UILabel = {
         let label = UILabel()
-        label.textColor = .label
         label.numberOfLines = 1
         label.font = .systemFont(ofSize: 16, weight: .semibold)
         return label
@@ -20,7 +19,6 @@ class LocationTableHeader: UITableViewHeaderFooterView {
     
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
-        contentView.backgroundColor = .secondarySystemBackground
         contentView.addSubview(label)
     }
     
@@ -33,7 +31,9 @@ class LocationTableHeader: UITableViewHeaderFooterView {
         label.frame = CGRect(x: 10, y: 0, width: width-30, height: height)
     }
     
-    func configure(with title: String) {
+    func configure(with title: String, backgroundColor: UIColor? = .secondarySystemBackground, labelColor: UIColor? = .black) {
         label.text = title
+        contentView.backgroundColor = backgroundColor
+        label.textColor = labelColor
     }
 }

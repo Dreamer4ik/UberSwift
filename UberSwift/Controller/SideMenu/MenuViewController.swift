@@ -34,14 +34,15 @@ class MenuViewController: UIViewController {
     
     private let user: User
     weak var delegate: MenuViewControllerDelegate?
+    static let identifier = "MenuViewControllerCell"
     
     private let tablewView: UITableView = {
         let table = UITableView()
-        table.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        table.register(UITableViewCell.self, forCellReuseIdentifier: MenuViewController.identifier)
         return table
     }()
     
-    private var headerView: MenuHeader?
+    private var menuHeader: MenuHeader?
     
     // MARK: - Lifecycle
     
@@ -79,8 +80,8 @@ class MenuViewController: UIViewController {
             y: 0,
             width: view.width,
             height: 200)
-        headerView = MenuHeader(user: user, frame: frame)
-        tablewView.tableHeaderView = headerView
+        menuHeader = MenuHeader(user: user, frame: frame)
+        tablewView.tableHeaderView = menuHeader
     }
     
     // MARK: - Actions
@@ -92,7 +93,7 @@ extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: MenuViewController.identifier, for: indexPath)
         guard let option = MenuOptions(rawValue: indexPath.row) else { preconditionFailure("MenuOptions error") }
         if #available(iOS 14.0, *) {
             var config = cell.defaultContentConfiguration()

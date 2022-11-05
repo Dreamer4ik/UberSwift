@@ -34,6 +34,8 @@
 		DFE0CDF52912F6C9003C1E81 /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFE0CDF42912F6C9003C1E81 /* ContainerViewController.swift */; };
 		DFE1E1502913CEF9008ADF2A /* MenuHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFE1E14F2913CEF9008ADF2A /* MenuHeader.swift */; };
 		DFE5CD6728FD4A280003357B /* LocationInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFE5CD6628FD4A280003357B /* LocationInputView.swift */; };
+		DFFF4DCA2916CE6C0019BFB8 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFFF4DC92916CE6C0019BFB8 /* SettingsViewController.swift */; };
+		DFFF4DCC2916DD0C0019BFB8 /* UserInfoHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFFF4DCB2916DD0C0019BFB8 /* UserInfoHeader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -67,6 +69,8 @@
 		DFE0CDF42912F6C9003C1E81 /* ContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
 		DFE1E14F2913CEF9008ADF2A /* MenuHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuHeader.swift; sourceTree = "<group>"; };
 		DFE5CD6628FD4A280003357B /* LocationInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationInputView.swift; sourceTree = "<group>"; };
+		DFFF4DC92916CE6C0019BFB8 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		DFFF4DCB2916DD0C0019BFB8 /* UserInfoHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoHeader.swift; sourceTree = "<group>"; };
 		EB1C033A1E6452039D1CC030 /* Pods_UberSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UberSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -147,6 +151,7 @@
 				DF4439E728F5D9E2000066E1 /* Auth */,
 				DF8717A428F95EAA00B32493 /* HomeViewController.swift */,
 				DFDB88F4290704B8002C1F4F /* PickupViewController.swift */,
+				DFFF4DC92916CE6C0019BFB8 /* SettingsViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -158,6 +163,7 @@
 				DF8B0BC928FDD1F1007FB066 /* Location */,
 				DF79432A29045CF900A8B9F6 /* RideActionView.swift */,
 				DFE1E14F2913CEF9008ADF2A /* MenuHeader.swift */,
+				DFFF4DCB2916DD0C0019BFB8 /* UserInfoHeader.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -373,10 +379,12 @@
 				DFC2A0FE28FE9F670001892A /* User.swift in Sources */,
 				DFDFE7D028FDB64400E2B700 /* LocationTableViewCell.swift in Sources */,
 				DF8717A528F95EAA00B32493 /* HomeViewController.swift in Sources */,
+				DFFF4DCC2916DD0C0019BFB8 /* UserInfoHeader.swift in Sources */,
 				DF4439CF28F5D99D000066E1 /* AppDelegate.swift in Sources */,
 				DF4439D128F5D99D000066E1 /* SceneDelegate.swift in Sources */,
 				DF4439EB28F5DBB6000066E1 /* Extensions.swift in Sources */,
 				DFE5CD6728FD4A280003357B /* LocationInputView.swift in Sources */,
+				DFFF4DCA2916CE6C0019BFB8 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
