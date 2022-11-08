@@ -54,9 +54,9 @@ class LocationTableViewCell: UITableViewCell {
         addressLabel.text = placemark.address
     }
     
-    func configureLabel(type: LocationType) {
+    func configureLabel(type: LocationType, locationText: String) {
         titleLabel.text = type.description
-        addressLabel.text = type.subTitle
+        addressLabel.text = locationText
     }
     
 }

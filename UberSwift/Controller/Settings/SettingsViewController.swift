@@ -34,9 +34,10 @@ class SettingsViewController: UIViewController {
     
     // MARK: - Properties
     static let identifier = "SettingsViewController"
-    private let user: User
+    private var user: User
+    private let locationManager = LocationHandler.shared.locationManager
     
-    private let tablewView: UITableView = {
+    private let tableView: UITableView = {
         let table = UITableView()
         table.register(LocationTableViewCell.self, forCellReuseIdentifier: LocationTableViewCell.identifier)
         table.register(LocationTableHeader.self, forHeaderFooterViewReuseIdentifier: LocationTableHeader.identifier)
@@ -63,19 +64,29 @@ class SettingsViewController: UIViewController {
     }
     
     // MARK: - Helpers
+    private func locationText(forType type: LocationType) -> String {
+        switch type {
+        case .home:
+            return user.homeLocation ?? type.subTitle
+        case .work:
+            return user.workLocation ?? type.subTitle
+        }
+    }
+    
     private func configureTableView() {
-        view.addSubview(tablewView)
-        tablewView.delegate = self
-        tablewView.dataSource = self
-        tablewView.backgroundColor = .white
-        tablewView.frame = view.bounds
+        view.addSubview(tableView)
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.backgroundColor = .white
+        tableView.frame = view.bounds
         let frame = CGRect(
             x: 0,
             y: 0,
             width: view.width,
             height: 100)
         infoHeader = UserInfoHeader(user: user, frame: frame)
-        tablewView.tableHeaderView = infoHeader
+        tableView.tableHeaderView = infoHeader
+        tableView.tableFooterView = UIView()
     }
     
     private func configureNavigationBar() {
@@ -99,6 +110,7 @@ class SettingsViewController: UIViewController {
     
 }
 
+// MARK: - UITableViewDelegate, UITableViewDataSource
 extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return LocationType.allCases.count
@@ -126,16 +138,21 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
         guard let type = LocationType(rawValue: indexPath.row) else {
             preconditionFailure("LocationType error")
         }
-        cell.configureLabel(type: type)
+        
+        cell.configureLabel(type: type, locationText: locationText(forType: type))
         cell.selectionStyle = .none
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let type = LocationType(rawValue: indexPath.row) else {
+        guard let type = LocationType(rawValue: indexPath.row),
+              let location = locationManager?.location else {
             return
         }
-        print("Type is \(type.description)")
+        let vc = AddLocationViewController(type: type, location: location)
+        vc.delegate = self
+        let nav = UINavigationController(rootViewController: vc)
+        present(nav, animated: true)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -144,5 +161,23 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 40
+    }
+}
+
+// MARK: - AddLocationViewControllerDelegate
+extension SettingsViewController: AddLocationViewControllerDelegate {
+    func updateLocation(locationString: String, type: LocationType) {
+        PassengerService.shared.saveLocation(locationString: locationString, type: type) { error, ref in
+            self.dismiss(animated: true)
+            
+            switch type {
+            case .home:
+                self.user.homeLocation = locationString
+            case .work:
+                self.user.workLocation = locationString
+            }
+            
+            self.tableView.reloadData()
+        }
     }
 }

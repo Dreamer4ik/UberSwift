@@ -127,6 +127,18 @@ final class PassengerService {
         
         REF_TRIPS.child(currentUid).removeValue(completionBlock: completion)
     }
+    
+    func saveLocation(
+        locationString: String,
+        type: LocationType,
+        completion: @escaping (Error?, DatabaseReference) -> Void
+    ) {
+        guard let currentUid = currentUid else {
+            return
+        }
+        let key: String = type == .home ? "homeLocation" : "workLocation"
+        REF_USERS.child(currentUid).child(key).setValue(locationString, withCompletionBlock: completion)
+    }
 }
 
 // MARK: - Shared Service

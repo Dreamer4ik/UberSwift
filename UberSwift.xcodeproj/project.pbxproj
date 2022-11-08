@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		53182DBF83223CB43C870CFD /* Pods_UberSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB1C033A1E6452039D1CC030 /* Pods_UberSwift.framework */; };
+		DF3D11442919199200D54CBA /* AddLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3D11432919199200D54CBA /* AddLocationViewController.swift */; };
 		DF4439CF28F5D99D000066E1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4439CE28F5D99D000066E1 /* AppDelegate.swift */; };
 		DF4439D128F5D99D000066E1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4439D028F5D99D000066E1 /* SceneDelegate.swift */; };
 		DF4439D828F5D99E000066E1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DF4439D728F5D99E000066E1 /* Assets.xcassets */; };
@@ -41,6 +42,7 @@
 /* Begin PBXFileReference section */
 		058F091EBC2A6FDE937C850E /* Pods-UberSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UberSwift.release.xcconfig"; path = "Target Support Files/Pods-UberSwift/Pods-UberSwift.release.xcconfig"; sourceTree = "<group>"; };
 		D5277F2979D178B65714926B /* Pods-UberSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UberSwift.debug.xcconfig"; path = "Target Support Files/Pods-UberSwift/Pods-UberSwift.debug.xcconfig"; sourceTree = "<group>"; };
+		DF3D11432919199200D54CBA /* AddLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLocationViewController.swift; sourceTree = "<group>"; };
 		DF4439CB28F5D99D000066E1 /* UberSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UberSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF4439CE28F5D99D000066E1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DF4439D028F5D99D000066E1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -93,6 +95,15 @@
 				058F091EBC2A6FDE937C850E /* Pods-UberSwift.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		DF3D11422919195400D54CBA /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				DFFF4DC92916CE6C0019BFB8 /* SettingsViewController.swift */,
+				DF3D11432919199200D54CBA /* AddLocationViewController.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		DF4439C228F5D99D000066E1 = {
@@ -149,9 +160,9 @@
 			children = (
 				DFE0CDF12912F256003C1E81 /* SideMenu */,
 				DF4439E728F5D9E2000066E1 /* Auth */,
+				DF3D11422919195400D54CBA /* Settings */,
 				DF8717A428F95EAA00B32493 /* HomeViewController.swift */,
 				DFDB88F4290704B8002C1F4F /* PickupViewController.swift */,
-				DFFF4DC92916CE6C0019BFB8 /* SettingsViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -365,6 +376,7 @@
 				DFC2A0FC28FE96120001892A /* Service.swift in Sources */,
 				DF74202028F727E700830057 /* AuthField.swift in Sources */,
 				DF6DC94128FFEF4500A2C073 /* DriverAnnotation.swift in Sources */,
+				DF3D11442919199200D54CBA /* AddLocationViewController.swift in Sources */,
 				DFE1E1502913CEF9008ADF2A /* MenuHeader.swift in Sources */,
 				DF74202228F7318800830057 /* AuthButton.swift in Sources */,
 				DF4439E928F5D9EF000066E1 /* LoginViewController.swift in Sources */,
