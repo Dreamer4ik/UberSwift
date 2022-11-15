@@ -17,6 +17,11 @@ class PickupViewController: UIViewController {
     // MARK: - Properties
     weak var delegate: PickupViewControllerDelegate?
     private let mapView = MKMapView()
+    private var circularProgressView: CircularProgressView = {
+        let frame = CGRect(x: 0, y: 0, width: 360, height: 360)
+        let cp = CircularProgressView(frame: frame)
+        return cp
+    }()
     let trip: Trip
     
     private let cancelButton: UIButton = {
@@ -59,6 +64,8 @@ class PickupViewController: UIViewController {
         configureUI()
         configureMapView()
         
+        self.perform(#selector(animateProgress), with: nil, afterDelay: 0.5)
+        
         cancelButton.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
         acceptTripButton.addTarget(self, action: #selector(didTapAcceptButton), for: .touchUpInside)
     }
@@ -66,8 +73,6 @@ class PickupViewController: UIViewController {
     override var prefersStatusBarHidden: Bool {
         return true
     }
-    
-    // MARK: - API
     
     // MARK: - Helpers
     
@@ -84,11 +89,10 @@ class PickupViewController: UIViewController {
         cancelButton.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor,
                             paddingLeft: 16)
         
-        view.addSubview(mapView)
-        let mapSize: CGFloat = 270
-        mapView.setDimensions(height: mapSize, width: mapSize)
-        mapView.layer.cornerRadius = mapSize/2
-        mapView.centerX(inView: view)
+        view.addSubview(circularProgressView)
+        circularProgressView.setDimensions(height: 360, width: 360)
+        circularProgressView.centerX(inView: view)
+        circularProgressView.addSubview(mapView)
         
         let topPadding: CGFloat
         if #unavailable(iOS 15) {
@@ -100,12 +104,17 @@ class PickupViewController: UIViewController {
                 .flatMap { ($0 as? UIWindowScene)?.windows ?? [] }
                 .first { $0.isKeyWindow }?.safeAreaInsets.top ?? 0
         }
+        circularProgressView.anchor(top: view.safeAreaLayoutGuide.topAnchor, paddingTop: topPadding)
         
-        mapView.anchor(top: view.safeAreaLayoutGuide.topAnchor, paddingTop: topPadding * 1.1)
+        let mapSize: CGFloat = 268
+        mapView.setDimensions(height: mapSize, width: mapSize)
+        mapView.layer.cornerRadius = mapSize/2
+        mapView.centerX(inView: circularProgressView)
+        mapView.centerY(inView: circularProgressView, constant: 32)
         
         view.addSubview(pickupLabel)
         pickupLabel.centerX(inView: view)
-        pickupLabel.anchor(top: mapView.bottomAnchor, paddingTop: 16)
+        pickupLabel.anchor(top: circularProgressView.bottomAnchor, paddingTop: 32)
         
         view.addSubview(acceptTripButton)
         acceptTripButton.anchor(top: pickupLabel.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor,
@@ -115,6 +124,13 @@ class PickupViewController: UIViewController {
     // MARK: - Actions
     @objc private func didTapCancelButton() {
         dismiss(animated: true)
+    }
+    
+    @objc private func animateProgress() {
+        circularProgressView.animatePulsatingLayer()
+        circularProgressView.setProgressWithAnimation(duration: 7, value: 0) {
+            self.dismiss(animated: true)
+        }
     }
     
     @objc private func didTapAcceptButton() {
