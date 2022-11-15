@@ -11,16 +11,22 @@ class UserInfoHeader: UIView {
     // MARK: - Properties
     private let user: User
     
-    private let profileImageView: UIImageView = {
-        let view = UIImageView()
-        view.backgroundColor = .lightGray
+    private let profileImageView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .black
         return view
+    }()
+    
+    private let initialLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 42, weight: .semibold)
+        label.textColor = .white
+        return label
     }()
     
     private let fullnameLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 16)
-        label.text = "iOS Dev"
         return label
     }()
     
@@ -29,7 +35,6 @@ class UserInfoHeader: UIView {
         label.font = .systemFont(ofSize: 14)
         label.textColor = .white
         label.textColor = .lightGray
-        label.text = "apple@gmail.com"
         return label
     }()
     
@@ -45,6 +50,10 @@ class UserInfoHeader: UIView {
         profileImageView.centerY(inView: self, leftAnchor: leftAnchor, paddingLeft: 16)
         profileImageView.setDimensions(height: profileImageSize, width: profileImageSize)
         profileImageView.layer.cornerRadius = profileImageSize/2
+        
+        addSubview(initialLabel)
+        initialLabel.centerX(inView: profileImageView)
+        initialLabel.centerY(inView: profileImageView)
         
         let stack = UIStackView(arrangedSubviews: [fullnameLabel, emailLabel])
         stack.distribution = .fillEqually
@@ -65,5 +74,6 @@ class UserInfoHeader: UIView {
     private func configureLabels(user: User) {
         fullnameLabel.text = user.fullname
         emailLabel.text = user.email
+        initialLabel.text = user.firstInitial
     }
 }

@@ -11,17 +11,23 @@ class MenuHeader: UIView {
     // MARK: - Properties
     private let user: User
     
-    private let profileImageView: UIImageView = {
-        let view = UIImageView()
-        view.backgroundColor = .lightGray
+    private let profileImageView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .black
         return view
+    }()
+    
+    private let initialLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 42, weight: .semibold)
+        label.textColor = .white
+        return label
     }()
     
     private let fullnameLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 16)
         label.textColor = .white
-        label.text = "iOS Dev"
         return label
     }()
     
@@ -30,7 +36,6 @@ class MenuHeader: UIView {
         label.font = .systemFont(ofSize: 14)
         label.textColor = .white
         label.textColor = .lightGray
-        label.text = "apple@gmail.com"
         return label
     }()
     
@@ -49,6 +54,10 @@ class MenuHeader: UIView {
         profileImageView.anchor(top: topAnchor, left: leftAnchor, paddingTop: height == 0 ? 54 : height,
                                 paddingLeft: 12, width: profileImageSize, height: profileImageSize)
         profileImageView.layer.cornerRadius = profileImageSize/2
+        
+        addSubview(initialLabel)
+        initialLabel.centerX(inView: profileImageView)
+        initialLabel.centerY(inView: profileImageView)
         
         let stack = UIStackView(arrangedSubviews: [fullnameLabel, emailLabel])
         stack.distribution = .fillEqually
@@ -69,6 +78,7 @@ class MenuHeader: UIView {
     private func configureLabels(user: User) {
         fullnameLabel.text = user.fullname
         emailLabel.text = user.email
+        initialLabel.text = user.firstInitial
     }
     
     // MARK: - Actions

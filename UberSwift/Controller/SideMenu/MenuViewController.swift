@@ -79,7 +79,7 @@ class MenuViewController: UIViewController {
             x: 0,
             y: 0,
             width: view.width,
-            height: 200)
+            height: 160)
         menuHeader = MenuHeader(user: user, frame: frame)
         tablewView.tableHeaderView = menuHeader
     }

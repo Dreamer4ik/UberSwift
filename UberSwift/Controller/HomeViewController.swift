@@ -111,6 +111,23 @@ class HomeViewController: UIViewController {
             switch state {
             case .requested:
                 print("requested")
+            case .denied:
+                print("denied")
+                PassengerService.shared.deleteTrip { error, ref in
+                    self.shouldPresentLoadingView(false)
+                    self.centerMapOnUserLocation()
+                    self.removeAnnotationsAndOverlays()
+                    
+                    let animator = UIViewPropertyAnimator(duration: 0.3, curve: .linear) {
+                        self.configureActionButton(config: .showMenu)
+                        self.inputActivationView.alpha = 1
+                    }
+                    animator.startAnimation()
+                    
+                    self.presentAlertController(withTitle: "Oops",
+                                                message: "It looks like we couldnt find you a driver. Please try again...")
+                }
+                
             case .accepted:
                 print("Trip was accept")
                 self.shouldPresentLoadingView(false)
