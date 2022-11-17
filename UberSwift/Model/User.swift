@@ -22,7 +22,7 @@ struct User {
     var workLocation: String?
     
     var firstInitial: String {
-        return String(fullname.prefix(1))
+        return String(fullname.uppercased().prefix(1))
     }
     
     init(uid: String, dictionary: [String: Any]) {

@@ -777,7 +777,7 @@ extension HomeViewController: RideActionViewDelegate {
 // MARK: - PickupViewControllerDelegate
 extension HomeViewController: PickupViewControllerDelegate {
     func didAcceptTrip(_ trip: Trip) {
-        self.trip = trip
+//        self.trip = trip
         
         mapView.addAnnotationAndSelect(forCoordinate: trip.pickupCoordinates)
         setCustomRegion(type: .pickup, withCoordinates: trip.pickupCoordinates)

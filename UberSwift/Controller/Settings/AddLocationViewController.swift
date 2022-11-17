@@ -109,7 +109,7 @@ extension AddLocationViewController: UITableViewDelegate, UITableViewDataSource 
         let title = result.title
         let subtitle = result.subtitle
         let locationString = title + " " + subtitle
-        let trimmedLocation = locationString.replacingOccurrences(of: ", United States", with: "")
+        let trimmedLocation = locationString.replacingOccurrences(of: ", Ukraine", with: "")
         delegate?.updateLocation(locationString: trimmedLocation, type: type)
     }
     

@@ -67,9 +67,21 @@ class SettingsViewController: UIViewController {
     private func locationText(forType type: LocationType) -> String {
         switch type {
         case .home:
-            return user.homeLocation ?? type.subTitle
+            if let userLocatin = user.homeLocation {
+                let trimmedString = userLocatin.components(separatedBy: ", ")
+                let string = "\(trimmedString[0]), " + "\(trimmedString[1]), " + "\(trimmedString[2])"
+                return string
+            }
+            
+            return type.subTitle
         case .work:
-            return user.workLocation ?? type.subTitle
+            if let userLocatin = user.workLocation {
+                let trimmedString = userLocatin.components(separatedBy: ", ")
+                let string = "\(trimmedString[0]), " + "\(trimmedString[1]), " + "\(trimmedString[2])"
+                return string
+            }
+            
+            return type.subTitle
         }
     }
     

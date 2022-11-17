@@ -23,6 +23,8 @@ class PickupViewController: UIViewController {
         return cp
     }()
     let trip: Trip
+    var timer: Timer?
+    private var totalSeconds = 0
     
     private let cancelButton: UIButton = {
         let button = UIButton(type: .system)
@@ -65,6 +67,9 @@ class PickupViewController: UIViewController {
         configureMapView()
         
         self.perform(#selector(animateProgress), with: nil, afterDelay: 0.5)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.startTimer()
+        }
         
         cancelButton.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
         acceptTripButton.addTarget(self, action: #selector(didTapAcceptButton), for: .touchUpInside)
@@ -121,22 +126,51 @@ class PickupViewController: UIViewController {
                                 paddingTop: 16, paddingLeft: 32, paddingRight: 32, height: 50)
     }
     
+    private func startTimer () {
+      guard timer == nil else { return }
+
+        timer = Timer.scheduledTimer(
+          timeInterval: 1,
+          target: self,
+          selector: #selector(updateTime),
+          userInfo: nil,
+          repeats: true)
+    }
+    
+    private func resetTimer() {
+        timer?.invalidate()
+        totalSeconds = 0
+        timer = nil
+    }
+    
     // MARK: - Actions
     @objc private func didTapCancelButton() {
-        dismiss(animated: true)
+        dismiss(animated: true) {
+            self.resetTimer()
+            DriverService.shared.updateTripState(trip: self.trip, state: .denied) { err, ref in
+                
+            }
+            print("didTapCancelButton")
+        }
     }
     
     @objc private func animateProgress() {
         circularProgressView.animatePulsatingLayer()
+        startTimer()
         circularProgressView.setProgressWithAnimation(duration: 7, value: 0) {
             
-            DriverService.shared.updateTripState(trip: self.trip, state: .denied) { err, ref in
-                self.dismiss(animated: true)
-            }
+        }
+    }
+    
+    @objc private func updateTime()  {
+        totalSeconds += 1
+        if timer != nil, totalSeconds > 7 {
+            didTapCancelButton()
         }
     }
     
     @objc private func didTapAcceptButton() {
+        resetTimer()
         DriverService.shared.acceptTrip(trip: trip) { error, ref in
             self.delegate?.didAcceptTrip(self.trip)
         }

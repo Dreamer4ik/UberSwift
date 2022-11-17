@@ -63,6 +63,7 @@ class RideActionView: UIView {
     var buttonAction = ButtonAction()
     var destination: MKPlacemark?
     var user: User?
+    private var saveAddress: NSAttributedString?
     
     var config = RideActionViewConfiguration() {
         didSet {
@@ -77,10 +78,9 @@ class RideActionView: UIView {
         return label
     }()
     
-    private let adressLabel: UILabel = {
+    private let addressLabel: UILabel = {
         let label = UILabel()
         label.textColor = .lightGray
-//        label.font = .systemFont(ofSize: 16)
         label.textAlignment = .center
         return label
     }()
@@ -130,7 +130,7 @@ class RideActionView: UIView {
         backgroundColor = .white
         addShadow()
         
-        let stack = UIStackView(arrangedSubviews: [titleLabel, adressLabel])
+        let stack = UIStackView(arrangedSubviews: [titleLabel, addressLabel])
         stack.axis = .vertical
         stack.spacing = 4
         stack.distribution = .fillEqually
@@ -189,12 +189,13 @@ class RideActionView: UIView {
     
     func configureLabel(placemark: MKPlacemark) {
         titleLabel.text = placemark.name
-        let attributedText = NSMutableAttributedString(string: "\("Adress:")",
+        let attributedText = NSMutableAttributedString(string: "\("Address:")",
                                                        attributes: [.font: UIFont.systemFont(ofSize: 18, weight: .semibold)])
         
         attributedText.append(NSAttributedString(string: "  \(placemark.address ?? "")",
                                                  attributes: [.font: UIFont.systemFont(ofSize: 16)]))
-        adressLabel.attributedText = attributedText
+        addressLabel.attributedText = attributedText
+        saveAddress = attributedText
         destination = placemark
     }
     
@@ -229,7 +230,7 @@ class RideActionView: UIView {
             
             if user.accountType == .driver {
                 titleLabel.text = "Driver has arrived"
-                adressLabel.text = "Please meet driver at pickup location"
+                addressLabel.text = "Please meet driver at pickup location"
             }
         case .pickupPassenger:
             titleLabel.text = "Arrived at passenger Location"
@@ -241,6 +242,7 @@ class RideActionView: UIView {
             }
             
             if user.accountType == .driver {
+                addressLabel.attributedText = saveAddress
                 actionButton.setTitle("TRIP IN PROGRESS", for: .normal)
                 actionButton.isEnabled = false
             }
